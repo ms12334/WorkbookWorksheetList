@@ -1,0 +1,41 @@
+Option Explicit
+Private Sub CommandButton1_Click()
+    Dim book As Workbook, sheet As Worksheet
+    Dim lastUsedColumn As Long, lastUsedRow As Long
+    Dim i As Integer, curColumn As Long, curRow As Long
+    i = 1
+    'Cells (row, column), Cells(1,1) = Cells(A1)
+    Cells(i, 1) = "Workbook"
+    Cells(i, 2) = "Worksheets"
+    Cells(i, 3) = "Last Used Column"
+    Cells(i, 4) = "Last Used Row"
+    Cells(i, 5) = "Filled Cells"
+    i = i + 1
+    For Each book In Workbooks
+        Cells(i, 1) = book.Name
+        For Each sheet In book.Worksheets
+            If sheet.Visible Then
+                Cells(i, 2) = sheet.Name
+                lastUsedColumn = sheet.UsedRange.Column - 1 + sheet.UsedRange.Columns.Count
+                lastUsedRow = sheet.UsedRange.Row - 1 + sheet.UsedRange.Rows.Count
+                Cells(i, 3) = lastUsedColumn
+                Cells(i, 4) = lastUsedRow
+                curColumn = 1
+                Do While curColumn <= lastUsedColumn
+                    curRow = 1
+                    Do While curRow <= lastUsedRow
+                        'If sheet.Cells(curRow, curColumn).Interior.Color = RGB(255,0,0) Then
+                        If sheet.Cells(curRow, curColumn).Interior.ColorIndex > 0 Then
+                            Cells(i, 5) = "Column: " & curColumn & " Row: " & curRow
+                            Cells(i, 5).Interior.Color = sheet.Cells(curRow, curColumn).Interior.Color
+                            i = i + 1
+                        End If
+                        curRow = curRow + 1
+                    Loop
+                    curColumn = curColumn + 1
+                Loop
+            End If  'list visible sheets only
+        Next sheet
+    Next book
+End Sub
+
