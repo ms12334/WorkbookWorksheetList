@@ -3,6 +3,7 @@ Private Sub CommandButton1_Click()
     Dim book As Workbook, sheet As Worksheet
     Dim lastUsedColumn As Long, lastUsedRow As Long
     Dim i As Integer, curColumn As Long, curRow As Long
+    Dim coloredCells As Boolean
     i = 1
     'Cells (row, column), Cells(1,1) = Cells(A1)
     Cells(i, 1) = "Workbook"
@@ -21,6 +22,7 @@ Private Sub CommandButton1_Click()
                 Cells(i, 3) = lastUsedColumn
                 Cells(i, 4) = lastUsedRow
                 curColumn = 1
+                coloredCells = False
                 Do While curColumn <= lastUsedColumn
                     curRow = 1
                     Do While curRow <= lastUsedRow
@@ -29,12 +31,18 @@ Private Sub CommandButton1_Click()
                             Cells(i, 5) = "Column: " & curColumn & " Row: " & curRow
                             Cells(i, 5).Interior.Color = sheet.Cells(curRow, curColumn).Interior.Color
                             i = i + 1
+                            ColoredCelles = True
                         End If
                         curRow = curRow + 1
                     Loop
                     curColumn = curColumn + 1
                 Loop
             End If  'list visible sheets only
+            If coloredCells = False Then
+                i = i + 1
+            Else
+                coloredCells = False
+            End If
         Next sheet
     Next book
 End Sub
