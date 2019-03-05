@@ -17,12 +17,12 @@ Private Sub CommandButton1_Click()
         For Each sheet In book.Worksheets
             If sheet.Visible Then
                 Cells(i, 2) = sheet.Name
-                lastUsedColumn = sheet.UsedRange.Column - 1 + sheet.UsedRange.Columns.Count
-                lastUsedRow = sheet.UsedRange.Row - 1 + sheet.UsedRange.Rows.Count
+                lastUsedColumn = getLastUsedColumn(sheet)
+                lastUsedRow = getLastUsedRow(sheet)
                 Cells(i, 3) = lastUsedColumn
                 Cells(i, 4) = lastUsedRow
-                curColumn = 1
                 coloredCells = False
+                curColumn = 1
                 Do While curColumn <= lastUsedColumn
                     curRow = 1
                     Do While curRow <= lastUsedRow
@@ -31,14 +31,14 @@ Private Sub CommandButton1_Click()
                             Cells(i, 5) = "Column: " & curColumn & " Row: " & curRow
                             Cells(i, 5).Interior.Color = sheet.Cells(curRow, curColumn).Interior.Color
                             i = i + 1
-                            ColoredCelles = True
+                            coloredCells = True
                         End If
                         curRow = curRow + 1
                     Loop
                     curColumn = curColumn + 1
                 Loop
             End If  'list visible sheets only
-            'If no colored cells in the sheet, increment one. If there are colored cell(s), increment is already done in the above do while loop.  Reset the coloredCells value to False.
+            'If no colored cells in the sheet, increment one. If there are colored cell(s), increment is already done in the above do while loop. Reset the coloredCells value to False.
             If coloredCells = False Then
                 i = i + 1
             Else
@@ -48,3 +48,13 @@ Private Sub CommandButton1_Click()
     Next book
 End Sub
 
+Private Function getLastUsedColumn(sheet)
+
+    getLastUsedColumn = sheet.UsedRange.Column - 1 + sheet.UsedRange.Columns.Count
+
+End Function
+Private Function getLastUsedRow(sheet)
+
+    getLastUsedRow = sheet.UsedRange.Row - 1 + sheet.UsedRange.Rows.Count
+
+End Function
