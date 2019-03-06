@@ -28,7 +28,8 @@ Private Sub CommandButton1_Click()
                     Do While curRow <= lastUsedRow
                         'If sheet.Cells(curRow, curColumn).Interior.Color = RGB(255,0,0) Then
                         If sheet.Cells(curRow, curColumn).Interior.ColorIndex > 0 Then
-                            Cells(i, 5) = "Column: " & curColumn & " Row: " & curRow
+                            'Cells(i, 5) = "Column: " & curColumn & " Row: " & curRow
+                            Cells(i, 5) = cnvtCellLocFmt(curColumn, curRow)
                             Cells(i, 5).Interior.Color = sheet.Cells(curRow, curColumn).Interior.Color
                             i = i + 1
                             coloredCells = True
@@ -49,12 +50,13 @@ Private Sub CommandButton1_Click()
 End Sub
 
 Private Function getLastUsedColumn(sheet)
-
     getLastUsedColumn = sheet.UsedRange.Column - 1 + sheet.UsedRange.Columns.Count
-
 End Function
+
 Private Function getLastUsedRow(sheet)
-
     getLastUsedRow = sheet.UsedRange.Row - 1 + sheet.UsedRange.Rows.Count
+End Function
 
+Private Function cnvtCellLocFmt(cCol, cRow) As String
+    cnvtCellLocFmt = Split(Cells(1, cCol).Address, "$")(1) + CStr(cRow)
 End Function
